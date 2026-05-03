@@ -23,17 +23,21 @@ fn main() {
     // 姓名用 &str，年龄用 u8，身高用 f64
     // 然后用解构取出每个元素并打印
 
-    // let person: (???, ???, ???) = ("小明", 20, 1.75);
-    // let (name, age, height) = person;
-    // println!("{} 今年 {} 岁，身高 {} 米", name, age, height);
+    let person: (&str, u8, f64) = ("小明", 20, 1.75);
+    let (name, age, height) = person;
+    println!("{} 今年 {} 岁，身高 {} 米", name, age, height);
 
     // 也可以通过索引访问元组元素
-    // println!("姓名: {}", person.0);
+    println!("姓名: {}", person.0);
 
     // ==================== 任务 3：数组 ====================
     // TODO: 创建一个包含 5 个 i32 的数组 scores
     // 用 for 循环遍历打印每个分数
     // 提示：数组长度固定，类型为 [i32; 5]
+    let scores: [i32;5] = [1, 2, 3, 4, 5];
+    for score in scores{
+        println!("{score}");
+    }
 
     // let scores: [i32; 5] = [90, 85, 78, 92, 88];
     // 遍历数组的推荐方式：
@@ -47,14 +51,16 @@ fn main() {
 
     // ==================== 任务 4（挑战）：整数溢出 ====================
     // 下面的代码在 debug 模式下会 panic，在 release 模式下会回绕
-    // let mut small: u8 = 255;
-    // small = small + 1;  // debug 模式: panic!  release 模式: 0
+    let mut small: u8 = 255;
+    small = small + 1;  // debug 模式: panic!  release 模式: 0
     // 试试看！然后试着用 wrapping_add 方法来安全处理溢出
     // println!("溢出后: {}", 255u8.wrapping_add(1));
 
     // ==================== 思考题 ====================
     // 1. 数组和元组有什么区别？什么时候用哪个？
+    //元组的元素可以不同类型，数组的元素类型必须一致。元素类型一致用数组不同用元组
     // 2. Rust 有多少种整数类型？为什么要分这么多种？
+    // 12种;为了性能和节省数据空间？
 }
 
 // 运行方法：cargo run --bin ex03_types
