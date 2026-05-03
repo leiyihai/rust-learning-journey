@@ -24,8 +24,8 @@ fn main() {
     // TODO: 完成 append_world 函数，让它给字符串追加 " world"
     // 然后取消下面的注释
     let mut message = String::from("hello");
-    // append_world(&mut message);  // &mut 创建可变引用
-    // println!("修改后: {message}");
+    append_world(&mut message);  // &mut 创建可变引用
+    println!("修改后: {message}");
 
     println!("--- 任务 2 结束 ---");
 
@@ -52,8 +52,8 @@ fn main() {
     // ==================== 任务 4：字符串切片 ====================
     // TODO: 用切片获取字符串 "你好，世界！" 的前两个字（注意 UTF-8！）
     let greeting = String::from("你好，世界！");
-    // let hello = &greeting[???];  // 填正确的字节范围
-    // println!("切片: {hello}");
+    let hello = &greeting[0..6];  // 填正确的字节范围
+    println!("切片: {hello}");
 
     println!("--- 任务 4 结束 ---");
 }
@@ -61,17 +61,20 @@ fn main() {
 // TODO: 实现 calc_length —— 接受 &String，返回 usize
 // 不要获取所有权，只是借用
 fn calc_length(s: &String) -> usize {
-    todo!("调用 s.len() 返回字符串的字节长度")
+    s.len()
 }
 
 // TODO: 实现 append_world —— 接受 &mut String，追加内容
 fn append_world(_s: &mut String) {
-    todo!("调用 _s.push_str(\" world\")")
+    _s.push_str(" world");
 }
 
 // ==================== 思考题 ====================
 // 1. 为什么 Rust 不允许同时存在可变引用和不可变引用？
+// 避免数据错误  如果同时存在读和写，读的数据可能就会是错误的
 // 2. 什么是"悬垂引用"（dangling reference）？Rust 如何防止它？
+// 一个引用指向了已经释放的无效内存。rust让变量只在定义的作用域内有效（但是不理解，请举例）
 // 3. &String 和 &str 有什么区别？什么时候用哪个？
+//&String传参的话只能传&String   &str可以传&String和&Str
 
 // 运行方法：cargo run --bin ex07_references
