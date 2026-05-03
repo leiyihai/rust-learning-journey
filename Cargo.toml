@@ -1,0 +1,86 @@
+[package]
+name = "rust-learning-journey"
+version = "0.1.0"
+edition = "2024"
+description = "Rust 编程入门学习项目 —— 从零开始的 Rust 学习之旅"
+
+# 每个练习是一个独立的可执行文件
+[[bin]]
+name = "ex01_hello"
+path = "src/bin/ex01_hello.rs"
+
+[[bin]]
+name = "ex02_variables"
+path = "src/bin/ex02_variables.rs"
+
+[[bin]]
+name = "ex03_types"
+path = "src/bin/ex03_types.rs"
+
+[[bin]]
+name = "ex04_functions"
+path = "src/bin/ex04_functions.rs"
+
+[[bin]]
+name = "ex05_control_flow"
+path = "src/bin/ex05_control_flow.rs"
+
+[[bin]]
+name = "ex06_ownership"
+path = "src/bin/ex06_ownership.rs"
+
+[[bin]]
+name = "ex07_references"
+path = "src/bin/ex07_references.rs"
+
+[[bin]]
+name = "ex08_structs"
+path = "src/bin/ex08_structs.rs"
+
+[[bin]]
+name = "ex09_enums"
+path = "src/bin/ex09_enums.rs"
+
+[[bin]]
+name = "ex10_modules"
+path = "src/bin/ex10_modules.rs"
+
+[[bin]]
+name = "ex11_strings"
+path = "src/bin/ex11_strings.rs"
+
+[[bin]]
+name = "ex12_vectors"
+path = "src/bin/ex12_vectors.rs"
+
+[[bin]]
+name = "ex13_hashmaps"
+path = "src/bin/ex13_hashmaps.rs"
+
+[[bin]]
+name = "ex14_error_handling"
+path = "src/bin/ex14_error_handling.rs"
+
+[[bin]]
+name = "ex15_generics"
+path = "src/bin/ex15_generics.rs"
+
+[[bin]]
+name = "ex16_traits"
+path = "src/bin/ex16_traits.rs"
+
+[[bin]]
+name = "ex17_lifetimes"
+path = "src/bin/ex17_lifetimes.rs"
+
+[[bin]]
+name = "ex18_closures"
+path = "src/bin/ex18_closures.rs"
+
+[[bin]]
+name = "ex19_testing"
+path = "src/bin/ex19_testing.rs"
+
+[[bin]]
+name = "ex20_todo_app"
+path = "src/bin/ex20_todo_app.rs"
