@@ -23,9 +23,10 @@ struct Cat {
     name: String,
 }
 
+// TODO: 为 Dog 实现 Speak（提示：返回 "汪汪！"）
 impl Speak for Dog {
     fn speak(&self) -> &str {
-        "汪汪！"
+        todo!("返回 \"汪汪！\"")
     }
 }
 
@@ -40,8 +41,9 @@ fn main() {
     let dog = Dog { name: String::from("旺财") };
     let cat = Cat { name: String::from("咪咪") };
 
-    println!("{} 说: {}", dog.name, dog.speak());
-    // println!("{} 说: {}", cat.name, cat.speak());  // Cat 完成后取消注释
+    // TODO: 完成 Dog 和 Cat 的 Speak 实现后取消下面的注释
+    // println!("{} 说: {}", dog.name, dog.speak());
+    // println!("{} 说: {}", cat.name, cat.speak());
 
     println!("--- 任务 1 结束 ---");
 

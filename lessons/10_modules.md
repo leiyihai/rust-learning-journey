@@ -71,7 +71,7 @@ src/
 
 ```rust
 // main.rs
-mod math_utils;         // Rust 会自动找 math_utils.rs 或 math_utils/mod.rs
+mod math_utils;         // Rust 会自动找 math_utils_new 或 math_utils/mod.rs
 use math_utils::add;
 ```
 

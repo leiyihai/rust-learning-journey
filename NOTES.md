@@ -143,6 +143,53 @@ cargo run --bin ex03_types --release  # release 模式（溢出回绕，255+1=0�
 
 ---
 
+## 模块系统（ex10）
+
+### mod 的文件查找规则
+
+`mod xxx;` 只在**当前文件所在目录**和子目录里找：
+
+```
+src/bin/ex10.rs 中写 mod math;   →  搜 src/bin/math.rs 或 src/bin/math/mod.rs
+```
+
+不会向上翻目录，也不会去兄弟目录。
+
+### 文件放在不同目录怎么办：#[path]
+
+```rust
+#[path = "../math_utils.rs"]   // 手动指定文件路径（相对于当前文件）
+mod math_utils;                // 模块名照常写
+```
+
+### 文件里的代码不需要再包 mod { }
+
+```rust
+// math_utils.rs 里直接写代码就行：
+pub fn add(a: i32, b: i32) -> i32 { a + b }
+
+// ❌ 不要再包一层 mod math_utils { ... }，否则调用路径变成 math_utils::math_utils::add()
+```
+
+### super:: 是模块层级，不是目录层级
+
+- `super::` = 往上一层**模块**（不是往上一层目录）
+- 模块树的根（crate root）再往上没东西了，`super::` 在那里没用
+- 想在模块中使用上层的路径：`crate::xxx`（从 crate 根开始）
+
+### 项目的模块结构
+
+- `src/main.rs` = 二进制 crate 根（有的话）
+- `src/lib.rs` = 库 crate 根（有的话，所有 bin 都能用 `项目名::` 引用）
+- `src/bin/*.rs` = 各自独立的 crate 根（没有 lib.rs 时它们是独立的）
+- 本项目没有 `lib.rs`，所以每个 bin 文件都是独立的 crate，之间不能互相引用
+
+### IDE 对文件位置的判断
+
+`src/bin/` 下的所有 `.rs` 文件会被 Cargo 当成可执行程序，要求有 `main()`。模块文件应该放在 `src/` 下，如果放 `bin/` 下 IDE 会报"需要 main"的错。
+
+---
+
 ## 杂项
 
 - `print!` 输出后不换行，`println!` 输出后换行

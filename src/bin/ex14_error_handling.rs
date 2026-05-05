@@ -70,10 +70,16 @@ fn main() {
 // TODO: 实现 divide(a: f64, b: f64) -> Result<f64, String>
 // 如果 b == 0.0，返回 Err
 // 否则返回 Ok(a / b)
+fn divide(a: f64, b: f64) -> Result<f64, String> {
+    todo!("如果 b == 0.0 返回 Err，否则返回 Ok(a / b)")
+}
 
 // TODO: 实现 read_file(path: &str) -> Result<String, io::Error>
 // 用 ? 运算符读取文件内容
 // 提示：用 File::open(path)? 和 read_to_string
+fn read_file(path: &str) -> Result<String, io::Error> {
+    todo!("用 File::open(path)? 打开文件，然后 read_to_string")
+}
 
 // ==================== 思考题 ====================
 // 1. panic! 和 Result 分别适用于什么场景？

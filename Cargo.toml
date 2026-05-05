@@ -10,6 +10,10 @@ name = "ex01_hello"
 path = "src/bin/ex01_hello.rs"
 
 [[bin]]
+name = "ex09_extra"
+path = "src/bin/ex09_extra.rs"
+
+[[bin]]
 name = "ex02_variables"
 path = "src/bin/ex02_variables.rs"
 
