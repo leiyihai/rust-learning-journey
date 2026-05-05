@@ -17,11 +17,15 @@ fn main() {
     println!("字面量: {literal}");
     println!("String: {owned}");
 
-    // TODO: 创建一个 String，用 3 种不同的方式
+
     // 1. String::from("...")
     // 2. "...".to_string()
     // 3. "...".into()
     // 打印出来验证
+    println!("{}", String::from("创建String方式一"));
+    println!("{}", "创建String方式二".to_string());
+    let s:String= "创建String方式三".into();
+    println!("{}", s);
 
     println!("--- 任务 1 结束 ---");
 
@@ -31,15 +35,15 @@ fn main() {
     let hello = String::from("你好");
     let world = String::from("世界");
 
-    // let hello_world = hello + ???;  // 填上正确的写法
-    // println!("{hello_world}");
+    let hello_world = hello + &world;  // 填上正确的写法
+    println!("{hello_world}");
     // println!("{hello}");  // 编译错误：hello 的所有权被移走了
 
     // TODO: 用 format! 宏拼接（推荐方式，不会转移所有权）
     let name = "Alice";
     let age = 20;
-    // let info = format!(???);  // 生成 "我叫 Alice，今年 20 岁"
-    // println!("{info}");
+    let info = format!("我叫{name}，今年{age}岁");  // 生成 "我叫 Alice，今年 20 岁"
+    println!("{info}");
 
     println!("--- 任务 2 结束 ---");
 
@@ -50,30 +54,35 @@ fn main() {
     // .chars() 按"字符"遍历（Unicode 标量值）
     // .bytes() 按"字节"遍历
 
+
     println!("按字符遍历 {}:", text);
-    // TODO: 用 .chars() 遍历 text，打印每个字符
-    // for c in text.chars() { ... }
+    for c in text.chars() { println!("{c}") }
 
     println!("按字节遍历 {}:", text);
-    // TODO: 用 .bytes() 遍历 text，打印每个字节
-    // for b in text.bytes() { ... }
+    for b in text.bytes() { println!("{b}") }
 
     // 观察："你" 一个字符占了几个字节？
+    // 将text赋值成"你" 输出228 189 160  3个字节
+
 
     println!("--- 任务 3 结束 ---");
 
     // ==================== 任务 4：字符串常用方法 ====================
     let s = String::from("  Rust Programming!  ");
 
-    // TODO: 试试这些方法，取消注释观察结果
-    // println!("转大写: {}", s.to_uppercase());
-    // println!("转小写: {}", s.to_lowercase());
-    // println!("去除空白: '{}'", s.trim());
-    // println!("包含 'Rust'? {}", s.contains("Rust"));
-    // println!("替换: {}", s.replace("Rust", "Type"));
-    // println!("是否以 ' ' 开头? {}", s.starts_with("  "));
+
+    println!("转大写: {}", s.to_uppercase());
+    println!("转小写: {}", s.to_lowercase());
+    println!("去除空白: '{}'", s.trim());
+    println!("包含 'Rust'? {}", s.contains("Rust"));
+    println!("替换: {}", s.replace("Rust", "Type"));
+    println!("是否以 ' ' 开头? {}", s.starts_with("  "));
 
     println!("--- 任务 4 结束 ---");
+    let s1 = first_letter(&String::from("我要"));
+    match s1 { Some(c) => println!("{}", c),None => println!("空") };
+    let s2 = first_letter(&String::from("RUST"));
+    match s2 { Some(c) => println!("{}", c),None => println!("空") };
 }
 
 // ==================== 任务 5（挑战）：提取首字母 ====================
@@ -81,13 +90,16 @@ fn main() {
 // 如果字符串为空，返回 None
 // 如果第一个字符是多字节的（如中文），也要正确处理！
 
-// fn first_letter(s: &str) -> Option<char> {
-//     // TODO: 用 s.chars().next()
-// }
+fn first_letter(s: &str) -> Option<char> {
+    s.chars().next()
+}
 
 // ==================== 思考题 ====================
 // 1. 为什么 Rust 要区分 String 和 &str？这体现了什么设计理念？
+// 区分可变字符串和不可变字符串？可以根据需求将字符串放在堆和栈中。体现极致的性能？瞎猜的我也不知道
 // 2. 为什么 Rust 不让你直接通过索引访问字符串 s[0]？
+// 因为Rust用的Unicode标准，索引访问会出问题，访问到字符的某个字节而不是那个字符
 // 3. format! 宏和 println! 宏有什么相似之处？
+// 都是用来格式化字符串的
 
 // 运行方法：cargo run --bin ex11_strings
