@@ -5,16 +5,13 @@
 // 2. trait bound：约束泛型的行为
 // 3. derive 宏和常见标准库 trait
 
-use std::fmt;
-
 // ==================== 任务 1：定义和实现 Trait ====================
-// TODO: Speak trait 定义好了，请为 Dog 和 Cat 实现它
+// 为 Dog 和 Cat 实现 Speak trait
 
 trait Speak {
     fn speak(&self) -> &str;
 }
 
-// TODO: 为 Dog 和 Cat 实现 Speak trait
 struct Dog {
     name: String,
 }
@@ -41,23 +38,20 @@ fn main() {
     let dog = Dog { name: String::from("旺财") };
     let cat = Cat { name: String::from("咪咪") };
 
-    // TODO: 完成 Dog 和 Cat 的 Speak 实现后取消下面的注释
-    // println!("{} 说: {}", dog.name, dog.speak());
-    // println!("{} 说: {}", cat.name, cat.speak());
+    // TODO: 完成 Speak 实现后，调用 dog.speak() 和 cat.speak() 并打印
 
     println!("--- 任务 1 结束 ---");
 
     // ==================== 任务 2：trait 作为参数 ====================
-    // 写一个函数 make_it_speak，接受任何实现了 Speak 的类型
-    // TODO: 用 impl Speak 语法
-    // fn make_it_speak(animal: &impl Speak) {
-    //     println!("动物说: {}", animal.speak());
-    // }
-    // make_it_speak(&dog);
+    // 写一个 make_it_speak 函数，接受 &impl Speak，打印 animal.speak()
+    // 提示：fn make_it_speak(animal: &impl Speak) { ... }
+
+    // TODO
 
     println!("--- 任务 2 结束 ---");
 
     // ==================== 任务 3：derive 宏 ====================
+    // 观察 #[derive] 自动生成的 Debug、Clone、PartialEq
     #[derive(Debug, Clone, PartialEq)]
     struct Book {
         title: String,
@@ -67,33 +61,29 @@ fn main() {
     let book1 = Book { title: String::from("Rust 入门"), pages: 300 };
     let book2 = book1.clone();
 
-    println!("{:?}", book1);         // Debug 打印
-    println!("两本书相同？{}", book1 == book2);  // PartialEq 比较
+    println!("{:?}", book1);
+    println!("两本书相同？{}", book1 == book2);
 
-    // TODO: 给你的 Dog 和 Cat 加上 #[derive(Debug)]
+    // TODO: 给 Dog 和 Cat 加上 #[derive(Debug)]
 
     println!("--- 任务 3 结束 ---");
 
     // ==================== 任务 4：Display trait ====================
-    // TODO: 为 Book 手动实现 Display trait（类似 Java 的 toString）
-    // impl fmt::Display for Book {
-    //     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-    //         write!(f, "《{}》({} 页)", self.title, self.pages)
-    //     }
-    // }
-    // println!("{book1}");
+    // 为 Book 手动实现 Display trait，输出格式类似《书名》(xxx 页)
+    // 提示：impl std::fmt::Display for Book { fn fmt(...) -> fmt::Result { write!(...) } }
+    // 实现后用 println!("{book1}") 验证
+
+    // TODO
 
     println!("--- 任务 4 结束 ---");
 }
 
 // ==================== 任务 5（挑战）：多个 trait bound ====================
-// 写一个泛型函数 print_and_compare，接受两个参数：
-// - 参数必须同时实现 Debug 和 PartialEq
+// 写一个 print_and_compare 函数：
+// - 接受两个实现了 Debug + PartialEq 的参数
 // - 打印两个值，返回它们是否相等
-// fn print_and_compare<T: fmt::Debug + PartialEq>(a: &T, b: &T) -> bool {
-//     println!("比较 {:?} 和 {:?}", a, b);
-//     a == b
-// }
+
+// TODO
 
 // ==================== 思考题 ====================
 // 1. Trait 和 Java 的 interface 有什么异同？

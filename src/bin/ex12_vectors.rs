@@ -23,28 +23,28 @@ fn main() {
     let mut numbers: Vec<i32> = vec![];
 
     // 添加元素
-    // numbers.push(10);
-    // numbers.push(20);
-    // numbers.push(30);
+    numbers.push(10);
+    numbers.push(20);
+    numbers.push(30);
     println!("添加后: {numbers:?}");
 
     // 访问元素（注意边界检查）
-    // println!("第一个: {}", numbers[0]);         // 越界会 panic
-    // println!("第一个（安全）: {:?}", numbers.get(0));  // 返回 Option
-    // println!("第100个（安全）: {:?}", numbers.get(100)); // 不会 panic！
+    println!("第一个: {}", numbers[0]);         // 越界会 panic
+    println!("第一个（安全）: {:?}", numbers.get(0));  // 返回 Option
+    println!("第100个（安全）: {:?}", numbers.get(100)); // 不会 panic！
 
     // 修改元素
-    // if let Some(first) = numbers.get_mut(0) {
-    //     *first = 100;
-    // }
-    // println!("修改后: {numbers:?}");
+    if let Some(first) = numbers.get_mut(0) {
+        *first = 100;
+    }
+    println!("修改后: {numbers:?}");
 
     // 删除元素
-    // let last = numbers.pop();  // 移除最后一个元素并返回
-    // println!("弹出: {last:?}, 剩余: {numbers:?}");
+    let last = numbers.pop();  // 移除最后一个元素并返回
+    println!("弹出: {last:?}, 剩余: {numbers:?}");
 
-    // numbers.remove(0);  // 移除索引 0 的元素
-    // println!("移除后: {numbers:?}");
+    numbers.remove(0);  // 移除索引 0 的元素
+    println!("移除后: {numbers:?}");
 
     println!("--- 任务 2 结束 ---");
 
@@ -53,14 +53,18 @@ fn main() {
 
     // TODO: 用三种方式遍历
     // 方式 1：不可变遍历
-    // for n in &nums { ... }
+    for n in &nums {
+        println!("{n}");
+    }
 
     // 方式 2：可变遍历
-    // let mut nums = nums.clone();
-    // for n in &mut nums { *n *= 2; }
+    let mut nums = nums.clone();
+    for n in &mut nums { *n *= 2; }
 
     // 方式 3：带索引遍历
-    // for (i, n) in nums.iter().enumerate() { ... }
+    for (i, n) in nums.iter().enumerate() {
+        println!("v[{i}] = {n}");
+    }
 
     println!("--- 任务 3 结束 ---");
 
@@ -75,20 +79,36 @@ fn main() {
     // TODO: 实现下面的三个计算
 
     // 平均值
-    // let sum: i32 = data.iter().sum();
-    // let avg = sum as f64 / data.len() as f64;
+    let sum: i32 = data.iter().sum();
+    let avg = sum as f64 / data.len() as f64;
+    println!("sum: {sum}");
+    println!("avg: {avg}");
 
     // 最大值最小值（用 iter().max() 和 iter().min()）
+    let max = data.iter().max();
+    let min = data.iter().min();
+    match max {
+        Some(v) => println!("max: {v}"),
+        None => println!("no max"),
+    }
+    match min {
+        Some(v) => println!("min: {v}"),
+        None => println!("no min"),
+    }
 
     // 偶数和（用 filter）
-    // let even_sum: i32 = data.iter().filter(|&&x| x % 2 == 0).sum();
+    let even_sum: i32 = data.iter().filter(|&&x| x % 2 == 0).sum();
+    println!("even_sum: {even_sum}");
 
     println!("--- 任务 4 结束 ---");
 }
 
 // ==================== 思考题 ====================
 // 1. vec[3] 和 vec.get(3) 有什么区别？各适用于什么场景？
+// vec[3]超出索引范围就会panic!  vec.get(3)保证安全，超出索引返回None
 // 2. Vec<T> 和数组 [T; N] 有什么区别？什么时候用哪个？
+// Vec<T>动态变化的，可加可减元素；[T; N]固定大小的；不确定数量会有多少的时候用Vec<T>
 // 3. push 和 pop 的时间复杂度是多少？
+// ???我连问题都看不懂，解释一下什么是时间复杂度。
 
 // 运行方法：cargo run --bin ex12_vectors
