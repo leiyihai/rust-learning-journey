@@ -8,29 +8,43 @@
 // ==================== 任务 1：定义和实现 Trait ====================
 // 为 Dog 和 Cat 实现 Speak trait
 
+use std::fmt::Debug;
+
 trait Speak {
     fn speak(&self) -> &str;
 }
 
+#[derive(Debug)]
 struct Dog {
     name: String,
 }
 
+#[derive(Debug)]
 struct Cat {
     name: String,
 }
 
-// TODO: 为 Dog 实现 Speak（提示：返回 "汪汪！"）
 impl Speak for Dog {
     fn speak(&self) -> &str {
-        todo!("返回 \"汪汪！\"")
+        "汪汪"
     }
 }
 
-// TODO: 为 Cat 实现 Speak（提示：返回 "喵喵！"）
 impl Speak for Cat {
     fn speak(&self) -> &str {
-        todo!("返回 \"喵喵！\"")
+        "喵喵"
+    }
+}
+
+#[derive(Debug, Clone, PartialEq)]
+struct Book {
+    title: String,
+    pages: u32,
+}
+
+impl std::fmt::Display for Book {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(f, "[{}] ({})", self.title, self.pages)
     }
 }
 
@@ -38,7 +52,8 @@ fn main() {
     let dog = Dog { name: String::from("旺财") };
     let cat = Cat { name: String::from("咪咪") };
 
-    // TODO: 完成 Speak 实现后，调用 dog.speak() 和 cat.speak() 并打印
+    println!("{}发出了叫声：{}", dog.name, dog.speak());
+    println!("{}发出了叫声：{}", cat.name, cat.speak());
 
     println!("--- 任务 1 结束 ---");
 
@@ -46,17 +61,13 @@ fn main() {
     // 写一个 make_it_speak 函数，接受 &impl Speak，打印 animal.speak()
     // 提示：fn make_it_speak(animal: &impl Speak) { ... }
 
-    // TODO
+    make_it_speak(&dog);
+    make_it_speak(&cat);
 
     println!("--- 任务 2 结束 ---");
 
     // ==================== 任务 3：derive 宏 ====================
     // 观察 #[derive] 自动生成的 Debug、Clone、PartialEq
-    #[derive(Debug, Clone, PartialEq)]
-    struct Book {
-        title: String,
-        pages: u32,
-    }
 
     let book1 = Book { title: String::from("Rust 入门"), pages: 300 };
     let book2 = book1.clone();
@@ -73,9 +84,13 @@ fn main() {
     // 提示：impl std::fmt::Display for Book { fn fmt(...) -> fmt::Result { write!(...) } }
     // 实现后用 println!("{book1}") 验证
 
-    // TODO
+    println!("{book1}");
+    print_and_compare(&3, &5);
 
     println!("--- 任务 4 结束 ---");
+}
+fn make_it_speak(animal: &impl Speak) {
+    println!("{}", animal.speak());
 }
 
 // ==================== 任务 5（挑战）：多个 trait bound ====================
@@ -83,11 +98,18 @@ fn main() {
 // - 接受两个实现了 Debug + PartialEq 的参数
 // - 打印两个值，返回它们是否相等
 
-// TODO
+fn print_and_compare<T: Debug + PartialEq>(a: &T, b: &T) -> bool {
+    println!("{:?} {:?}", a, b);
+    a == b
+}
 
 // ==================== 思考题 ====================
 // 1. Trait 和 Java 的 interface 有什么异同？
+// 都是契约，定义了方法/行为的签名,Java的interface本身是类型,Trait本身不是
 // 2. 什么是"孤儿规则"（orphan rule）？它为什么存在？
+// 在自己的crate(什么意思？):1.为自己的类型实现标准库的trait,2.为标准库实现自己的trait;
+// 不可以为外部类型实现外部trait;防止冲突(不同的类型可能有同名的trait?)
 // 3. Debug 和 Display 的适用场景有什么不同？
+// Debug不实现Display来格式化打印，适用于调试代码的时候。Display适用于需要显性打印。
 
 // 运行方法：cargo run --bin ex16_traits
