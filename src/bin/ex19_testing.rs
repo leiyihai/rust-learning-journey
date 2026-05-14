@@ -49,7 +49,7 @@ mod tests {
 
     #[test]
     fn test_add() {
-        // TODO
+        assert_eq!(add(1, 2), 3);
     }
 
     // ==================== 任务 2：布尔断言 ====================
@@ -57,7 +57,9 @@ mod tests {
 
     #[test]
     fn test_is_even() {
-        // TODO
+        assert!(is_even(0));
+        assert!(!is_even(1));
+        assert!(is_even(2));
     }
 
     // ==================== 任务 3：Option 断言 ====================
@@ -65,7 +67,8 @@ mod tests {
 
     #[test]
     fn test_safe_divide() {
-        // TODO
+        assert_eq!(safe_divide(10.0, 5.0), Some(2.0));
+        assert_eq!(safe_divide(5.0, 0.0), None);
     }
 
     // ==================== 任务 4：字符串测试 ====================
@@ -74,7 +77,9 @@ mod tests {
 
     #[test]
     fn test_reverse_string() {
-        // TODO
+        assert_eq!(reverse_string("hello"), "olleh");
+        assert_eq!(reverse_string(""), "");
+        assert_eq!(reverse_string("你好"), "好你");
     }
 
     // ==================== 任务 5：自定义失败信息 ====================
@@ -82,7 +87,7 @@ mod tests {
 
     #[test]
     fn test_with_message() {
-        // TODO
+        assert!(true, "当assert!的第一个参数为false时，测试不通过时候显示本消息！");
     }
 
     // ==================== 任务 6（挑战）：#[should_panic] ====================
@@ -90,16 +95,22 @@ mod tests {
     // 提示：访问 vec 越界索引，或用 unwrap() 让 None panic
 
     #[test]
-    #[should_panic]
+    #[should_panic(expected = "index out of bounds")]
     fn test_panic() {
-        // TODO
+        let v = vec![ 1, 2, 3 ];
+        let _x = v[99];
     }
 }
 
 // ==================== 思考题 ====================
 // 1. 单元测试和集成测试有什么区别？在 Rust 中各自放哪里？
+// 单元测试要用#[cfg(test)] + mod + use super::*  在文件的末尾写, 测单个函数、小模块
+// 集成测试只要函数挂上#[test] 测整体功能，公开api，单独的tests/文件夹
 // 2. assert_eq! 和 assert! 有什么区别？
+// assert_eq!要和预期值相等才能通过，assert!只要为真就通过
 // 3. #[should_panic] 的 expected 参数有什么用？
+// 错误原因描述
 // 4. 如何只运行某一个测试？
+// cargo test --bin ex19_testing
 
 // 运行测试：cargo test --bin ex19_testing
