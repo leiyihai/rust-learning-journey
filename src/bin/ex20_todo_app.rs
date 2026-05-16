@@ -1,127 +1,148 @@
-// ex20_todo_app.rs — 第20课：综合项目 / 命令行待办事项
-//
-// 这是学习路线的收官项目！你将综合运用前面所学的知识，
-// 构建一个完整的命令行待办事项管理器。
-//
-// 功能需求：
-// 1. 添加任务（add）
-// 2. 列出所有任务（list）
-// 3. 完成任务（done）
-// 4. 删除任务（remove）
-// 5. 退出程序（quit）
+use std::io;
 
-use std::io::{self, Write};
-
-// ==================== 数据结构 ====================
-
-/// 单个待办事项
-#[derive(Debug, Clone)]
-struct TodoItem {
+// 单个代办任务
+#[derive(Debug)]
+struct Todoitem{
     id: u32,
     title: String,
     completed: bool,
 }
 
-impl TodoItem {
-    fn new(id: u32, title: String) -> Self {
-        TodoItem { id, title, completed: false }
-    }
-}
-
-/// 待办事项列表
+// 任务列表管理器
+#[derive(Debug)]
 struct TodoList {
-    items: Vec<TodoItem>,
-    next_id: u32,
+    items: Vec<Todoitem>,
+    next_id: u32, // 自增id
 }
-
 impl TodoList {
-    // TODO: 实现 new() —— 创建空的 TodoList（items = vec![], next_id = 1）
+    // 创建空的任务列表
     fn new() -> Self {
-        todo!("创建空的 TodoList")
+        TodoList{
+            items: Vec::new(),
+            next_id: 1,
+        }
     }
 
-    // TODO: 实现 add —— 用 title 创建 TodoItem，push 到 items，next_id += 1
-    fn add(&mut self, _title: String) {
-        todo!("添加新任务")
+    // 添加任务
+    fn add(&mut self, title: String) {
+        let item = Todoitem{
+            id: self.next_id,
+            title,
+            completed: false,
+        };
+        self.items.push(item);
+        self.next_id += 1;
+        println!("✅ 任务添加成功");
     }
 
-    // TODO: 实现 list —— 遍历 items，[✓] 已完成 [ ] 未完成
+    // 列出所有任务
     fn list(&self) {
-        todo!("列出所有任务")
+        if self.items.is_empty(){
+            println!("📭 暂无待办任务");
+        }
+        println!("==================== 任务列表 ====================");
+        for item in &self.items {
+            let status = if item.completed { "✅ 已完成" } else { "🔸 未完成" };
+            println!("ID:{} | {} | 内容:{}", item.id, status, item.title);
+        }
+        println!("=================================================");
     }
 
-    // TODO: 实现 done —— 找到 id 对应的任务，设置 completed = true
-    fn done(&mut self, _id: u32) {
-        todo!("标记任务为完成")
+    // 标记完成任务
+    fn done(&mut self, target_id: u32) {
+        match self.items.iter_mut().find(|x|x.id == target_id) {
+            Some(item) => {
+                item.completed = true;
+                println!("🎉 任务{}已标记完成", target_id);
+            },
+            None => println!("❌ 不存在该ID任务"),
+        }
     }
 
-    // TODO: 实现 remove —— 找到 id 对应的任务，删除它
-    fn remove(&mut self, _id: u32) {
-        todo!("删除任务")
-    }
-}
-
-fn main() {
-    let mut todo_list = TodoList::new();
-
-    println!("=== Rust 待办事项管理器 ===");
-    println!("命令: add <描述> | list | done <id> | remove <id> | help | quit");
-
-    loop {
-        print!("> ");
-        let _ = io::stdout().flush();
-
-        // TODO: 用 io::stdin().read_line(&mut input) 读取一行输入
-        let mut input = String::new();
-
-        // 解析命令
-        let parts: Vec<&str> = input.trim().splitn(2, ' ').collect();
-        let command = parts.first().map(|s| s.to_lowercase()).unwrap_or_default();
-
-        match command.as_str() {
-            "" => continue,
-
-            "help" => {
-                println!("  add <描述>  —  添加新任务");
-                println!("  list       —  列出所有任务");
-                println!("  done <id>  —  标记任务为完成");
-                println!("  remove <id> — 删除任务");
-                println!("  help       —  显示此帮助");
-                println!("  quit       —  退出程序");
-            }
-
-            "list" => {
-                todo_list.list();
-            }
-
-            "add" => {
-                // TODO: 从 parts 中提取描述，调用 todo_list.add()
-            }
-
-            "done" => {
-                // TODO: 从 parts 中提取 id 并解析，调用 todo_list.done()
-            }
-
-            "remove" => {
-                // TODO: 从 parts 中提取 id 并解析，调用 todo_list.remove()
-            }
-
-            "quit" => {
-                println!("再见！");
-                break;
-            }
-
-            _ => {
-                println!("未知命令: '{command}'，输入 'help' 查看帮助");
-            }
+    // 删除任务
+    fn remove(&mut self, target_id: u32) {
+        let before_length = self.items.len();
+        self.items.retain(|x|x.id != target_id);
+        if before_length > self.items.len(){
+            println!("🗑️  任务{}删除成功", target_id);
+        }else {
+            println!("❌ 不存在该ID任务");
         }
     }
 }
 
-// ==================== 挑战扩展（可选）====================
-// 1. 保存和加载：用 serde_json 将任务保存为 JSON 文件
-// 2. 任务优先级：高/中/低
-// 3. 截止日期
-// 4. 排序：按优先级、日期、状态排序
+// 打印帮助命令
+fn print_help() {
+    println!("============= 命令列表 =============");
+    println!("add 内容      - 添加新待办任务");
+    println!("list          - 查看所有任务");
+    println!("done 编号     - 标记任务完成");
+    println!("remove 编号   - 删除指定任务");
+    println!("help          - 查看帮助");
+    println!("quit          - 退出程序");
+    println!("====================================");
+}
 
-// 运行方法：cargo run --bin ex20_todo_app
+fn main() {
+    // 初始化任务管理器
+    let mut todo_list = TodoList::new();
+    println!("===== 简易待办管理器 =====");
+    println!("输入 help 查看所有命令\n");
+
+    loop{
+        // 定义储存输入的字符串
+        let mut input = String::new();
+        println!("请输入指令：");
+
+        // 读取控制台输入
+        io::stdin().read_line(&mut input).expect("读取输入失败");
+
+        // 去除首尾空格、换行符
+        let input = input.trim();
+        if input.is_empty() {
+            continue;
+        }
+
+        // 分割命令
+        let parts: Vec<&str> = input.split_whitespace().collect();
+        let cmd = parts[0];
+
+        // 匹配所有命令
+        match cmd {
+            "quit" => {
+                println!("👋 退出程序，再见！");
+                break;
+            },
+            "help" => print_help(),
+            "list" => todo_list.list(),
+            "add" => {
+                if parts.len() < 2 {
+                    println!("⚠️ 用法：add 任务描述");
+                }else {
+                    let content = parts[1..].join(" ");
+                    todo_list.add(content);
+                }
+            }
+            "done" => {
+                if parts.len() < 2 {
+                    println!("⚠️ 用法：done 任务ID");
+                }else if let Ok(id) = parts[1].parse::<u32>(){
+                    todo_list.done(id);
+                }else {
+                    println!("⚠️ ID必须是数字");
+                }
+            }
+            "remove" => {
+                if parts.len() != 2 {
+                    println!("⚠️ 用法：remove 任务ID");
+                } else if let Ok(id) = parts[1].parse::<u32>() {
+                    todo_list.remove(id);
+                } else {
+                    println!("⚠️ ID必须是数字");
+                }
+            }
+            _ => println!("❌ 未知命令，输入 help 查看帮助"),
+        }
+        println!();
+    }
+}
